@@ -12,7 +12,6 @@ function App() {
       <Section
         title="Top Albums"
         endpoint="https://qtify-backend.labs.crio.do/albums/top"
-        showAllInitially
       />
 
       <Section
