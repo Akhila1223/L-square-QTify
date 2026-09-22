@@ -1,0 +1,56 @@
+.card {
+  width: 159px;
+  color: white;
+}
+
+.cardContent {
+  width: 159px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.image {
+  width: 159px;
+  height: 170px;
+  display: block;
+  object-fit: cover;
+}
+
+.followSection {
+  width: 159px;
+  height: 60px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+
+.chip {
+  width: 71px !important;
+  height: 23px !important;
+  padding: 4px 8px !important;
+  border-radius: 10px !important;
+
+  background-color: #121212 !important;
+  color: white !important;
+
+  font-family: "Poppins", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  line-height: 15px !important;
+}
+
+.chip .MuiChip-label {
+  padding: 0 !important;
+}
+
+.title {
+  margin: 8px 0 0;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 100%;
+}

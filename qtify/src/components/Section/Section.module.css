@@ -1,0 +1,33 @@
+.section {
+  padding: 20px 32px;
+  background-color: var(--color-black);
+  color: white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.collapseButton {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cardGrid {
+  display: flex;
+  gap: 24px;
+  overflow: hidden;
+}
