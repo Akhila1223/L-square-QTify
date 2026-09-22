@@ -85,6 +85,26 @@
   right: -16px;
 }
 
+.tabs {
+  min-height: 40px !important;
+  margin-bottom: 16px;
+}
+
+.tab {
+  min-width: auto !important;
+  padding: 8px 16px !important;
+  margin-right: 4px !important;
+  color: white !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+.tab.Mui-selected {
+  color: white !important;
+}
+
 @media (max-width: 768px) {
   .section {
     padding: 16px;

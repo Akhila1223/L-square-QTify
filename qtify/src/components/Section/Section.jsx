@@ -1,26 +1,55 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import Card from "../Card/Card";
 import styles from "./Section.module.css";
 
-function Section({ title, endpoint }) {
-  const [albums, setAlbums] = useState([]);
-  const [showAll, setShowAll] = useState(false);
+function Section({
+  title,
+  endpoint,
+  showAllInitially = false,
+  isSongs = false,
+}) {
+  const [items, setItems] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState("all");
+
+  const [showAll, setShowAll] = useState(showAllInitially);
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
     axios
       .get(endpoint)
       .then((response) => {
-        setAlbums(response.data);
+        setItems(response.data);
       })
       .catch((error) => {
         console.error(`Error fetching ${title}:`, error);
       });
   }, [endpoint, title]);
 
+  useEffect(() => {
+    if (!isSongs) return;
+
+    axios
+      .get("https://qtify-backend.labs.crio.do/genres")
+      .then((response) => {
+        setGenres(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching genres:", error);
+      });
+  }, [isSongs]);
+
+  const filteredItems = isSongs
+    ? selectedGenre === "all"
+      ? items
+      : items.filter((item) => item.genre.key === selectedGenre)
+    : items;
+
   const handleNext = () => {
-    if (slideIndex + 7 < albums.length) {
+    if (slideIndex + 7 < filteredItems.length) {
       setSlideIndex((prev) => prev + 1);
     }
   };
@@ -29,6 +58,11 @@ function Section({ title, endpoint }) {
     if (slideIndex > 0) {
       setSlideIndex((prev) => prev - 1);
     }
+  };
+
+  const handleGenreChange = (event, newValue) => {
+    setSelectedGenre(newValue);
+    setSlideIndex(0);
   };
 
   const handleShowAll = () => {
@@ -46,13 +80,34 @@ function Section({ title, endpoint }) {
       <div className={styles.header}>
         <h2>{title}</h2>
 
-        <button
-          className={styles.toggleButton}
-          onClick={showAll ? handleCollapse : handleShowAll}
-        >
-          {showAll ? "Collapse" : "Show All"}
-        </button>
+        {!isSongs && (
+          <button
+            className={styles.toggleButton}
+            onClick={showAll ? handleCollapse : handleShowAll}
+          >
+            {showAll ? "Collapse" : "Show All"}
+          </button>
+        )}
       </div>
+
+      {isSongs && (
+        <Tabs
+          value={selectedGenre}
+          onChange={handleGenreChange}
+          className={styles.tabs}
+        >
+          <Tab value="all" label="All" className={styles.tab} />
+
+          {genres.map((genre) => (
+            <Tab
+              key={genre.key}
+              value={genre.key}
+              label={genre.label}
+              className={styles.tab}
+            />
+          ))}
+        </Tabs>
+      )}
 
       <div className={styles.sliderContainer}>
         {!showAll && slideIndex > 0 && (
@@ -78,18 +133,19 @@ function Section({ title, endpoint }) {
                 : `translateX(-${slideIndex * 183}px)`,
             }}
           >
-            {albums.map((album) => (
+            {filteredItems.map((item) => (
               <Card
-                key={album.id}
-                image={album.image}
-                follows={album.follows}
-                title={album.title}
+                key={item.id}
+                image={item.image}
+                follows={isSongs ? item.likes : item.follows}
+                title={item.title}
+                chipLabel={isSongs ? "Likes" : "Follows"}
               />
             ))}
           </div>
         </div>
 
-        {!showAll && slideIndex + 7 < albums.length && (
+        {!showAll && slideIndex + 7 < filteredItems.length && (
           <button
             className={`${styles.arrow} ${styles.rightArrow}`}
             onClick={handleNext}
