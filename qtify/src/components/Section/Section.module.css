@@ -31,18 +31,30 @@
   width: 100%;
 }
 
-.cardGrid {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+/* Visible area for 7 cards */
+.cardViewport {
   width: 100%;
   overflow: hidden;
 }
 
-.expandedGrid {
-  justify-content: flex-start;
-  flex-wrap: wrap;
+/* All cards remain in the DOM */
+.cardGrid {
+  display: flex;
   gap: 24px;
+  align-items: flex-start;
+  width: max-content;
+  transition: transform 0.3s ease;
+}
+
+/* Show all albums in multiple rows */
+.expandedViewport {
+  overflow: visible;
+}
+
+.expandedViewport .cardGrid {
+  width: 100%;
+  flex-wrap: wrap;
+  transform: translateX(0) !important;
 }
 
 /* arrows */
@@ -79,14 +91,6 @@
   }
 
   .cardGrid {
-    justify-content: flex-start;
     gap: 16px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .cardGrid::-webkit-scrollbar {
-    display: none;
   }
 }

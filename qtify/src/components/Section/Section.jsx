@@ -3,9 +3,9 @@ import axios from "axios";
 import Card from "../Card/Card";
 import styles from "./Section.module.css";
 
-function Section({ title, endpoint, showAllInitially = false }) {
+function Section({ title, endpoint }) {
   const [albums, setAlbums] = useState([]);
-  const [showAll, setShowAll] = useState(showAllInitially);
+  const [showAll, setShowAll] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
@@ -18,10 +18,6 @@ function Section({ title, endpoint, showAllInitially = false }) {
         console.error(`Error fetching ${title}:`, error);
       });
   }, [endpoint, title]);
-
-  const visibleAlbums = showAll
-    ? albums
-    : albums.slice(slideIndex, slideIndex + 7);
 
   const handleNext = () => {
     if (slideIndex + 7 < albums.length) {
@@ -59,7 +55,7 @@ function Section({ title, endpoint, showAllInitially = false }) {
       </div>
 
       <div className={styles.sliderContainer}>
-        {slideIndex > 0 && (
+        {!showAll && slideIndex > 0 && (
           <button
             className={`${styles.arrow} ${styles.leftArrow}`}
             onClick={handlePrevious}
@@ -70,16 +66,27 @@ function Section({ title, endpoint, showAllInitially = false }) {
         )}
 
         <div
-          className={`${styles.cardGrid} ${showAll ? styles.expandedGrid : ""}`}
+          className={`${styles.cardViewport} ${
+            showAll ? styles.expandedViewport : ""
+          }`}
         >
-          {visibleAlbums.map((album) => (
-            <Card
-              key={album.id}
-              image={album.image}
-              follows={album.follows}
-              title={album.title}
-            />
-          ))}
+          <div
+            className={styles.cardGrid}
+            style={{
+              transform: showAll
+                ? "translateX(0)"
+                : `translateX(-${slideIndex * 183}px)`,
+            }}
+          >
+            {albums.map((album) => (
+              <Card
+                key={album.id}
+                image={album.image}
+                follows={album.follows}
+                title={album.title}
+              />
+            ))}
+          </div>
         </div>
 
         {!showAll && slideIndex + 7 < albums.length && (
