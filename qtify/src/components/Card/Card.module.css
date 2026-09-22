@@ -1,5 +1,6 @@
 .card {
   width: 159px;
+  flex: 0 0 159px;
   color: white;
 }
 
@@ -19,10 +20,12 @@
 
 .followSection {
   width: 159px;
-  height: 60px;
+  height: 35px;
   background-color: white;
+
   display: flex;
   align-items: center;
+
   padding-left: 8px;
   box-sizing: border-box;
 }
@@ -30,7 +33,9 @@
 .chip {
   width: 71px !important;
   height: 23px !important;
+
   padding: 4px 8px !important;
+
   border-radius: 10px !important;
 
   background-color: #121212 !important;
@@ -39,18 +44,20 @@
   font-family: "Poppins", sans-serif !important;
   font-size: 10px !important;
   font-weight: 400 !important;
-  line-height: 15px !important;
 }
 
-.chip .MuiChip-label {
+.chip :global(.MuiChip-label) {
   padding: 0 !important;
 }
 
 .title {
   margin: 8px 0 0;
+  min-height: 16px;
+
   color: white;
+
   font-family: "Poppins", sans-serif;
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 100%;
+  line-height: 16px;
 }
